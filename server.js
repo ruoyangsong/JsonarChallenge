@@ -64,6 +64,7 @@ app.get('/orders', function (req, res) {
         if (emp_err) callback(emp_err);
         resBody.push(
           {
+            orderNumber: row["orderNumber"],
             orderDate: row["orderDate"],
             requiredDate: row["requiredDate"],
             shippedDate: row["shippedDate"],

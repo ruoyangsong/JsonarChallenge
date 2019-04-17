@@ -1,5 +1,6 @@
 .search-section{
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 .search-bar {
   height: 40px;
@@ -14,4 +15,14 @@
 }
 .text-spacer {
   margin-left: 40px;
+}
+
+.customers-table{
+  display: block;
+  margin: auto;
+  width: 50%;
+}
+
+.pagination {
+text-align: center;
 }
