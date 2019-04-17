@@ -1,4 +1,15 @@
 const app = require('express')();
+const bodyParser = require('body-parser');
+// Prepare Access-Control
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  //'GET, POST, OPTIONS, PUT, PATCH, DELETE'); Add as required
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', 'same-origin');
+  next();
+});
+app.use(bodyParser.json());
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -22,8 +33,11 @@ app.get('/customers', function (req, res) {
       return res.status(400).send(err);
     };
     for (let i = 0; i < result.length; i++) {
-      const row = result[i];
-      resBody.push(row);
+      const info = {
+        customerNumber: result[i]["customerNumber"],
+        customerName: result[i]["customerName"]
+      };
+      resBody.push(info);
     }
     res.writeHead(200, {"Content-Type": "application/json"});
     const json = JSON.stringify(resBody);

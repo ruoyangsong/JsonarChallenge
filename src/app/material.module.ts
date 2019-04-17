@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
-  MatToolbarModule, MatMenuModule, MatIconModule, MatProgressSpinnerModule
+  MatToolbarModule, MatMenuModule, MatIconModule, MatProgressSpinnerModule, MatListModule, MatPaginatorModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +18,8 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatListModule,
+    MatPaginatorModule,
     FormsModule
   ],
   exports: [
@@ -31,6 +33,8 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatListModule,
     FormsModule
   ],
 })
