@@ -1,17 +1,21 @@
-
+<div *ngIf="!(hasOrder$ | async)">
+  This customer does not have any orders.
+</div>
 <ng-container *ngFor="let order of (orderList$ | async)">
   <mat-card class="card">
     <mat-card-title-group>
       <mat-card-title>Order Number: {{order.orderNumber}}</mat-card-title>
-      <mat-card-subtitle>Ordered Date: {{order.orderDate}}</mat-card-subtitle>
+      <mat-card-subtitle class="first-subtitle">Ordered Date: {{order.orderDate}}</mat-card-subtitle>
       <mat-card-subtitle *ngIf="order.comments">Comment: {{order.comments}}</mat-card-subtitle>
       <mat-card-header>Status: {{order.status}}</mat-card-header>
     </mat-card-title-group>
     <mat-card-content>
-      <div *ngFor="let product of order.products" class="product" (click)="showDetail(product)">
-        <div>{{product.productName}}</div>
-        <mat-divider></mat-divider>
-      </div>
+      <mat-list>
+        <ng-container *ngFor="let product of order.products">
+          <mat-list-item (click)="showDetail(product)">{{product.productName}}</mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+      </mat-list>
     </mat-card-content>
   </mat-card>
 </ng-container>

@@ -1,11 +1,12 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {Customer} from '../customers/customers.component';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {ProductDetailComponent} from '../product-detail/product-detail.component';
 
-interface Order {
+export interface Order {
   orderNumber: string;
   orderDate: Date;
   requiredDate: Date;
@@ -15,7 +16,7 @@ interface Order {
   products: Product[];
 }
 
-interface Product {
+export interface Product {
   productCode: string;
   productName: string;
   productLine: string;
@@ -36,13 +37,19 @@ interface Product {
 export class ProductsComponent implements OnInit {
   orderList$$: BehaviorSubject<Order[]> = new BehaviorSubject([]);
   orderList$: Observable<Order[]>;
+  hasOrder$$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  hasOrder$: Observable<boolean>;
   @Input() customer: Customer;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     this.orderList$ = this.orderList$$.asObservable();
+    this.hasOrder$ = this.hasOrder$$.asObservable();
   }
   ngOnInit(): void {
     this.fetchOrders(this.customer.customerNumber).pipe(
-      tap((response: Order[]) => this.orderList$$.next(response))
+      tap((response: Order[]) => {
+        this.hasOrder$$.next(response.length > 0);
+        this.orderList$$.next(response);
+      })
     ).subscribe();
   }
 
@@ -51,6 +58,6 @@ export class ProductsComponent implements OnInit {
     return this.http.get(url);
   }
   showDetail(product: Product) {
-    console.log(product);
+    this.dialog.open(ProductDetailComponent, {data: {product: product}});
   }
 }

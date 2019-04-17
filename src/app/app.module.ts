@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ProductsComponent} from './products/products.component';
+import {ProductDetailComponent} from './product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {ProductsComponent} from './products/products.component';
     LoginComponent,
     CustomersComponent,
     HeaderComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,7 @@ import {ProductsComponent} from './products/products.component';
     HttpClientModule,
     NgxPaginationModule
   ],
-  entryComponents: [ProductsComponent],
+  entryComponents: [ProductDetailComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

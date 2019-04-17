@@ -6,14 +6,6 @@
   <!--<span class="text-spacer">Name</span>-->
 <!--</div>-->
 
-<!--<mat-nav-list>-->
-  <!--<mat-list-item (click)="toggleProductsDetail(customer)" *ngFor="let customer of (customerList$ | async) | paginate: { itemsPerPage: 10, currentPage: pageIndex }">-->
-    <!--<span class="spacer">{{customer.customerNumber}}</span>-->
-    <!--<span class="spacer">{{customer.customerName}}</span>-->
-  <!--</mat-list-item>-->
-<!--</mat-nav-list>-->
-<!--<pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>-->
-
 <mat-accordion class="customers-table">
   <mat-expansion-panel *ngFor="let customer of (customerList$ | async) | paginate: { itemsPerPage: 10, currentPage: pageIndex }">
     <mat-expansion-panel-header>
