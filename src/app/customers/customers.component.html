@@ -7,7 +7,7 @@
 </div>
 
 <mat-nav-list>
-  <mat-list-item *ngFor="let customer of (customerList$ | async) | paginate: { itemsPerPage: 10, currentPage: pageIndex } ">
+  <mat-list-item (click)="toggleProductsDetail(customer)" *ngFor="let customer of (customerList$ | async) | paginate: { itemsPerPage: 10, currentPage: pageIndex }">
     <span class="spacer">{{customer.customerNumber}}</span>
     <span class="spacer">{{customer.customerName}}</span>
   </mat-list-item>

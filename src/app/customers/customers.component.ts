@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {switchMap, tap} from 'rxjs/operators';
-import {DataSource} from '@angular/cdk/table';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
+import {ProductsComponent} from '../products/products.component';
 
-interface Customer {
+export interface Customer {
   customerName: string;
   customerNumber: string;
 }
@@ -23,18 +23,10 @@ export class CustomersComponent implements OnInit {
   progressBarLoading$: Observable<boolean>;
   customerLists$$: BehaviorSubject<Customer[]> = new BehaviorSubject([]);
   customerList$: Observable<Customer[]>;
-  customerList: Customer[] = [];
-  customerNumber$$: BehaviorSubject<number> = new BehaviorSubject(0);
-  customerNumber$: Observable<number>;
-
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     this.searchValue$ = this.searchValue$$.asObservable();
     this.progressBarLoading$ = this.progressBarLoading$$.asObservable();
     this.customerList$ = this.customerLists$$.asObservable();
-    this.customerNumber$ = this.customerNumber$$.asObservable();
   }
 
   ngOnInit(): void {
@@ -43,8 +35,6 @@ export class CustomersComponent implements OnInit {
       switchMap((searchValue) => this.fetchCustomers(searchValue)),
       tap((result: any) => {
         this.customerLists$$.next(result);
-        this.customerList = result;
-        this.customerNumber$$.next(result.length);
       })
     ).subscribe();
   }
@@ -60,5 +50,12 @@ export class CustomersComponent implements OnInit {
     }
     return this.http.get(url);
   }
+
+  toggleProductsDetail(customer: Customer) {
+    this.dialog.open(ProductsComponent, {
+      data: {
+        customer: customer
+      }
+    });
+  }
 }
-const TESTLIST: Customer[] = [{customerNumber: '1', customerName: 'test'}, {customerNumber: '2', customerName: 'sadas'}];

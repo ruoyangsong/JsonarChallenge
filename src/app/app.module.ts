@@ -10,13 +10,15 @@ import {CustomersComponent} from './customers/customers.component';
 import { HeaderComponent } from './header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {ProductsComponent} from './products/products.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CustomersComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +28,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HttpClientModule,
     NgxPaginationModule
   ],
+  entryComponents: [ProductsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

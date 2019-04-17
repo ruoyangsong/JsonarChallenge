@@ -1,4 +1,5 @@
 const app = require('express')();
+var async = require('async');
 const bodyParser = require('body-parser');
 // Prepare Access-Control
 app.use(function (req, res, next) {
@@ -56,13 +57,32 @@ app.get('/orders', function (req, res) {
     if(err) {
       return res.status(400).send(err);
     };
-    for (let i = 0; i < result.length; i++) {
-      const row = result[i];
-      resBody.push(row);
-    }
-    res.writeHead(200, {"Content-Type": "application/json"});
-    const json = JSON.stringify(resBody);
-    res.end(json);
+
+    async.each(result, function (row, callback) {
+      queryString = "SELECT * FROM products INNER JOIN orderdetails ON products.productCode = orderdetails.productCode WHERE orderdetails.orderNumber = " + row["orderNumber"];
+      connection.query(queryString, function(emp_err, emp_rows) {
+        if (emp_err) callback(emp_err);
+        resBody.push(
+          {
+            orderDate: row["orderDate"],
+            requiredDate: row["requiredDate"],
+            shippedDate: row["shippedDate"],
+            status: row["status"],
+            comments: row["comments"],
+            products: emp_rows
+          }
+        );
+        callback();
+      });
+    }, function (err) {
+      if (err) {
+        res.status(400).send(err);
+      }
+      res.writeHead(200, {"Content-Type": "application/json"});
+      const json = JSON.stringify(resBody);
+      res.end(json);
+    });
+
   });
 });
 
