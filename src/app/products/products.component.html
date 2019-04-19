@@ -1,4 +1,4 @@
-<div *ngIf="!(hasOrder$ | async)">
+<div *ngIf="!(hasOrder$ | async)" class="no-order">
   This customer does not have any orders.
 </div>
 <ng-container *ngFor="let order of (orderList$ | async)">

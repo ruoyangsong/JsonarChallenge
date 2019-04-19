@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {ProductsComponent} from '../products/products.component';
+import {CookieService} from '../cookie.service';
+import {Router} from '@angular/router';
 
 export interface Customer {
   customerName: string;
@@ -23,13 +25,17 @@ export class CustomersComponent implements OnInit {
   progressBarLoading$: Observable<boolean>;
   customerLists$$: BehaviorSubject<Customer[]> = new BehaviorSubject([]);
   customerList$: Observable<Customer[]>;
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog, private cookieService: CookieService, private router: Router) {
     this.searchValue$ = this.searchValue$$.asObservable();
     this.progressBarLoading$ = this.progressBarLoading$$.asObservable();
     this.customerList$ = this.customerLists$$.asObservable();
   }
 
   ngOnInit(): void {
+    if (this.cookieService.get('authenticated') !== 'True') {
+      this.router.navigate(['login']);
+    }
+
     this.searchValue$.pipe(
       tap(() => this.progressBarLoading$$.next(true)),
       switchMap((searchValue) => this.fetchCustomers(searchValue)),

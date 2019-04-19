@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ProductsComponent} from './products/products.component';
 import {ProductDetailComponent} from './product-detail/product-detail.component';
+import {CookieService} from './cookie.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {ProductDetailComponent} from './product-detail/product-detail.component'
     NgxPaginationModule
   ],
   entryComponents: [ProductDetailComponent],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
