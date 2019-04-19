@@ -1,6 +1,12 @@
-const app = require('express')();
+const express = require('express');
+
+const path = require('path');
 const async = require('async');
 const bodyParser = require('body-parser');
+
+const app = express();
+app.use(express.static(__dirname + '/dist/JSonarChallenge'));
+app.use(bodyParser.json());
 // Prepare Access-Control
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,7 +16,7 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', 'same-origin');
   next();
 });
-app.use(bodyParser.json());
+
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -23,7 +29,11 @@ connection.connect((err) => {
   console.log('Connected!');
 });
 
-app.get('/customers', function (req, res) {
+app.get('/*', function(req, res) {
+  return res.sendFile(path.join(__dirname));
+});
+
+app.get('/fetch-customers', function (req, res) {
   let resBody = [];
   let queryString = 'SELECT * FROM customers';
   if(!!req.query.customerName) {
@@ -46,7 +56,7 @@ app.get('/customers', function (req, res) {
   });
 });
 
-app.get('/orders', function (req, res) {
+app.get('/fetch-orders', function (req, res) {
   let resBody = [];
   if(!req.query.customerNumber) {
     return res.sendStatus(400);

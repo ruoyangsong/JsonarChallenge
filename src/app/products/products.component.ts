@@ -54,7 +54,7 @@ export class ProductsComponent implements OnInit {
   }
 
   fetchOrders(customerNumber: string) {
-    const url = `http://localhost:3000/orders?customerNumber=${customerNumber}`;
+    const url = `http://localhost:3000/fetch-orders?customerNumber=${customerNumber}`;
     return this.http.get(url);
   }
   showDetail(product: Product) {

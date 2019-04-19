@@ -50,7 +50,7 @@ export class CustomersComponent implements OnInit {
   }
 
   fetchCustomers(customerName?: string) {
-    let url = 'http://localhost:3000/customers';
+    let url = 'http://localhost:3000/fetch-customers';
     if (customerName) {
       url += `?customerName=${customerName}`;
     }
